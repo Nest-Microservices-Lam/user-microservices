@@ -13,6 +13,9 @@ import { User } from './entities/user.entity';
 import { PermissionRole } from './interfaces/permission_role.interface';
 import { Permissions } from './enums/permissions.type';
 import { Role } from './enums/role.type';
+import { validateUUID } from 'src/utils/validateuuid';
+import { UpdateUserpasswordDto } from './dto/update-user-password';
+import { UpdateUserIntentionDto } from './dto/updateIntention-user';
 
 //-----------------------------------------------------
 
@@ -124,7 +127,43 @@ export class UsersService {
     }
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    validateUUID(id);
+
+    const { department, municipalitie, votingPlace, ...data } = updateUserDto;
+
+    const updateUser = this.userRepository.create({
+      userId: id,
+      department: department?.toLowerCase(),
+      municipalitie: municipalitie?.toLowerCase(),
+      votingPlace: votingPlace?.toLowerCase(),
+      ...data,
+    });
+
+    try {
+      const currentUser = await this.userRepository.save(updateUser);
+
+      if (!currentUser)
+        return {
+          operation: 'FAIL',
+          message: `El usuario no fue editado`,
+        };
+
+      return {
+        operation: 'SUCCESS',
+        message: `${currentUser.fullName.toUpperCase()} fue editado exitosamente`,
+      };
+    } catch (error) {
+      this.logger.error('Error al editar usuario', error);
+      throw new InternalServerErrorException('Error al editar usuario');
+    }
+  }
+
+  async updatePassword(id: string, updateUserDto: UpdateUserpasswordDto) {
+    validateUUID(id);
+  }
+
+  async updateIntentionVote(id: string, intention: UpdateUserIntentionDto) {
+    validateUUID(id);
   }
 }

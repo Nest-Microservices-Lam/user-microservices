@@ -20,7 +20,7 @@ export class UpdateUserDto {
   @MaxLength(11)
   @MinLength(6)
   @Matches(/^[0-9]+$/, { message: 'La cédula debe contener solo números' })
-  idCard: number;
+  idCard: string;
 
   @IsString()
   @MaxLength(10)
@@ -33,14 +33,6 @@ export class UpdateUserDto {
   @MaxLength(100)
   @IsOptional()
   email?: string;
-
-  @IsString()
-  @MinLength(8, { message: 'La contraseña debe tener al menos 8 caracteres' })
-  @MaxLength(20, {
-    message: 'La contraseña no puede exceder los 20 caracteres',
-  })
-  @IsOptional()
-  password: string;
 
   @IsString()
   @MaxLength(100)
