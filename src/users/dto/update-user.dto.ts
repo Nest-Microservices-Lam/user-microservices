@@ -3,6 +3,7 @@ import {
   IsOptional,
   IsString,
   Matches,
+  Max,
   MaxLength,
   MinLength,
 } from 'class-validator';
@@ -40,4 +41,32 @@ export class UpdateUserDto {
   })
   @IsOptional()
   password: string;
+
+  @IsString()
+  @MaxLength(100)
+  @IsOptional()
+  department?: string;
+
+  @IsString()
+  @MaxLength(100)
+  @IsOptional()
+  municipalitie?: string;
+
+  @Max(200)
+  @IsOptional()
+  zona?: number;
+
+  @IsString()
+  @MaxLength(50)
+  @IsOptional()
+  votingPlace?: string;
+
+  @Max(1000)
+  @IsOptional()
+  table: number;
+
+  @IsString()
+  @MaxLength(50)
+  @IsOptional()
+  address?: string;
 }

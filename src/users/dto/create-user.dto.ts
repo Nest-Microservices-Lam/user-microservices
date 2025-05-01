@@ -1,14 +1,15 @@
 import {
   IsDate,
   IsEmail,
+  IsJSON,
   IsOptional,
   IsString,
   Matches,
-  Max,
   MaxLength,
   MinLength,
 } from 'class-validator';
 import { Type } from 'class-transformer';
+import { PermissionRole } from '../interfaces/permission_role.interface';
 
 export class CreateUserDto {
   @IsString()
@@ -17,45 +18,22 @@ export class CreateUserDto {
   fullName: string;
 
   @IsString()
+  @IsOptional()
+  createdById?: string;
+
+  @IsString()
   @MaxLength(11)
   @MinLength(6)
-  @Matches(/^[0-9]+$/, { message: 'La cédula debe contener solo números' })
-  idCard: number;
+  idCard: string;
 
   @IsDate()
   @Type(() => Date)
   @IsOptional()
   dateBirth?: Date;
 
-  @IsString()
-  @MaxLength(100)
+  @IsJSON()
   @IsOptional()
-  department?: string;
-
-  @IsString()
-  @MaxLength(100)
-  @IsOptional()
-  municipalitie?: string;
-
-  @IsString()
-  @Max(200)
-  @IsOptional()
-  zona?: number;
-
-  @IsString()
-  @MaxLength(50)
-  @IsOptional()
-  position?: string;
-
-  @IsString()
-  @Max(1000)
-  @IsOptional()
-  table: number;
-
-  @IsString()
-  @MaxLength(50)
-  @IsOptional()
-  address?: string;
+  permission_role?: PermissionRole;
 
   @IsString()
   @MaxLength(10)

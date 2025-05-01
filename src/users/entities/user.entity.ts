@@ -5,12 +5,14 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   Index,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 import { PermissionRole } from '../interfaces/permission_role.interface';
 
 //---------------------------------------------------------------
 
-@Entity({ name: 'usuarios' })
+@Entity({ name: 'users' })
 export class User {
   @PrimaryGeneratedColumn('uuid', { name: 'userId' })
   userId: string;
@@ -26,18 +28,22 @@ export class User {
   @Column({ type: 'text', nullable: true })
   created_by_user_id: string;
 
+  @ManyToOne(() => User, { nullable: true })
+  @JoinColumn({ name: 'created_by_user_id' })
+  createdBy?: User;
+
   @Column({ type: 'date', nullable: true })
   dateBirth: Date;
 
   @Column({ type: 'varchar', length: 40, default: 'otro' })
   intentionVote: string;
 
-  @Index()
-  @Column({ length: 100 })
+  @Index('department_index')
+  @Column({ length: 100, nullable: true })
   department: string;
 
   @Index()
-  @Column({ length: 100 })
+  @Column({ length: 100, nullable: true })
   municipalitie: string;
 
   @Index()
@@ -46,7 +52,7 @@ export class User {
 
   @Index()
   @Column({ length: 50, nullable: true })
-  position: string;
+  votingPlace: string;
 
   @Column({ nullable: true })
   table: number;

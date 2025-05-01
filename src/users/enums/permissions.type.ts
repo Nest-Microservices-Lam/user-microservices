@@ -3,4 +3,5 @@ export enum Permissions {
   ADVANCED = 'advanced', // Admin Auxiliar
   INTERMEDIANTE = 'intermediate', // Coordinador
   BASIC = 'basic', // lider
+  USER = 'user',
 }
