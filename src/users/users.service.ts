@@ -161,9 +161,53 @@ export class UsersService {
 
   async updatePassword(id: string, updateUserDto: UpdateUserpasswordDto) {
     validateUUID(id);
+
+    const { password } = updateUserDto;
+
+    try {
+      const currentUser = await this.userRepository.update(id, {
+        password: bcrypt.hashSync(password, 10),
+      });
+
+      if (!currentUser.affected)
+        return {
+          operation: 'FAIL',
+          message: `El usuario no fue editado`,
+        };
+
+      return {
+        operation: 'SUCCESS',
+        message: `Tú password fue editado exitosamente`,
+      };
+    } catch (error) {
+      this.logger.error('Error al editar usuario', error);
+      throw new InternalServerErrorException('Error al editar usuario');
+    }
   }
 
   async updateIntentionVote(id: string, intention: UpdateUserIntentionDto) {
     validateUUID(id);
+
+    const { intentionVote } = intention;
+
+    try {
+      const currentUser = await this.userRepository.update(id, {
+        intentionVote: intentionVote.toLowerCase(),
+      });
+
+      if (!currentUser.affected)
+        return {
+          operation: 'FAIL',
+          message: `El usuario no fue editado`,
+        };
+
+      return {
+        operation: 'SUCCESS',
+        message: `Intención editada exitosamente`,
+      };
+    } catch (error) {
+      this.logger.error('Error al editar usuario', error);
+      throw new InternalServerErrorException('Error al editar usuario');
+    }
   }
 }
