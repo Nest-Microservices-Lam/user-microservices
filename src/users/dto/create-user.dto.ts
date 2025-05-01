@@ -27,9 +27,6 @@ export class CreateUserDto {
   @IsOptional()
   dateBirth?: Date;
 
-  @IsOptional()
-  intentionVote?: string;
-
   @IsString()
   @MaxLength(100)
   @IsOptional()
