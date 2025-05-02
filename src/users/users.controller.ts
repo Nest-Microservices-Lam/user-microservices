@@ -1,4 +1,6 @@
-import { Controller, Post, Body, Patch, Param } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
+import { MessagePattern, Payload } from '@nestjs/microservices';
+
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -9,29 +11,23 @@ import { UpdateUserIntentionDto } from './dto/updateIntention-user';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post('/v1/create')
-  create(@Body() createUserDto: CreateUserDto) {
+  @MessagePattern({ cmd: 'createUser' })
+  create(@Payload() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
 
-  @Patch('/v1/update/:id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(id, updateUserDto);
+  @MessagePattern({ cmd: 'updateUser' })
+  update(@Payload() updateUserDto: UpdateUserDto) {
+    return this.usersService.update(updateUserDto.id, updateUserDto);
   }
 
-  @Patch('/v1/update-password/:id')
-  updatePassword(
-    @Param('id') id: string,
-    @Body() updateUserDto: UpdateUserpasswordDto,
-  ) {
-    return this.usersService.updatePassword(id, updateUserDto);
+  @MessagePattern({ cmd: 'updatePasssword' })
+  updatePassword(@Payload() updateUserDto: UpdateUserpasswordDto) {
+    return this.usersService.updatePassword(updateUserDto.id, updateUserDto);
   }
 
-  @Patch('/v1/update-intention/:id')
-  updateIntentionVote(
-    @Param('id') id: string,
-    @Body() intention: UpdateUserIntentionDto,
-  ) {
-    return this.usersService.updateIntentionVote(id, intention);
+  @MessagePattern({ cmd: 'updateIntentionVote' })
+  updateIntentionVote(@Payload() intention: UpdateUserIntentionDto) {
+    return this.usersService.updateIntentionVote(intention.id, intention);
   }
 }

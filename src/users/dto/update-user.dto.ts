@@ -10,6 +10,9 @@ import {
 
 export class UpdateUserDto {
   @IsString()
+  id: string;
+
+  @IsString()
   @IsOptional()
   @MaxLength(255, { message: 'El nombre no puede exceder los 100 caracteres' })
   @MinLength(3, { message: 'El nombre no puede menos de 3 caracteres' })
