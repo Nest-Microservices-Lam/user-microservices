@@ -24,15 +24,8 @@ export class UsersService {
   ) {}
 
   async create(createUserDto: CreateUserDto) {
-    const {
-      idCard,
-      phone,
-      email,
-      dateBirth,
-      fullName,
-      createdById,
-      permission_role,
-    } = createUserDto;
+    const { idCard, phone, email, dateBirth, fullName, createdById, role } =
+      createUserDto;
 
     try {
       const existingUser = await this.userRepository
@@ -62,14 +55,15 @@ export class UsersService {
         dateBirth,
         phone: phone || undefined,
         email: email?.toLowerCase() || undefined,
-        created_by_user_id: createdById,
+        created_by_user_id: createdById || undefined,
+        rol: role || undefined,
       });
 
       const newUser = await this.userRepository.save(createUser, {});
 
       return {
         operation: 'SUCCESS',
-        message: `El ${permission_role?.role} ${newUser.fullName.toUpperCase()} con documento ${newUser.idCard} fue creado exitosamente`,
+        message: `El ${newUser.rol} ${newUser.fullName.toUpperCase()} con documento ${newUser.idCard} fue creado exitosamente`,
       };
     } catch (error) {
       this.logger.error('Error al crear usuario', error);

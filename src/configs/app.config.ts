@@ -6,6 +6,6 @@ export const appConfig = () => ({
     port: process.env.DB_PORT || 5432,
     user: process.env.DB_USERNAME || 'admin',
     password: process.env.DB_PASSWORD || 'Moctopus123',
-    database: process.env.DB_DATABASE || 'db_user_ms',
+    database: process.env.DB_DATABASE || 'db_users',
   },
 });

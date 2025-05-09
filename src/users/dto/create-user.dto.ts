@@ -1,7 +1,6 @@
 import {
   IsDate,
   IsEmail,
-  IsJSON,
   IsOptional,
   IsString,
   Matches,
@@ -9,7 +8,7 @@ import {
   MinLength,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { PermissionRole } from '../interfaces/permission_role.interface';
+import { Role } from '../enums/role.type';
 
 export class CreateUserDto {
   @IsString()
@@ -31,9 +30,9 @@ export class CreateUserDto {
   @IsOptional()
   dateBirth?: Date;
 
-  @IsJSON()
+  @IsString()
   @IsOptional()
-  permission_role?: PermissionRole;
+  role?: Role;
 
   @IsString()
   @MaxLength(10)

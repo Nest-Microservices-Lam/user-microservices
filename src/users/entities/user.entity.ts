@@ -67,6 +67,9 @@ export class User {
   @Column({ type: 'varchar', length: 20, unique: true, nullable: true })
   phone?: string;
 
+  @Column({ type: 'varchar', length: 20, nullable: true })
+  rol?: string;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
