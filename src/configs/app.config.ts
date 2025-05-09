@@ -1,7 +1,5 @@
 export const appConfig = () => ({
-  SERVER: {
-    port: process.env.PORT || 3001,
-  },
+  NATS_URL: process.env.NATS_URL || 'nats://localhost:4222',
 
   DB: {
     host: process.env.DB_HOST || 'localhost',
