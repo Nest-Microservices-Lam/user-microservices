@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Injectable,
   InternalServerErrorException,
   Logger,
@@ -74,10 +75,13 @@ export class UsersService {
   async update(id: string, updateUserDto: UpdateUserDto) {
     validateUUID(id);
 
-    const { department, municipalitie, votingPlace, ...data } = updateUserDto;
+    const { department, municipalitie, votingPlace, fullName, email, ...data } =
+      updateUserDto;
 
     const updateUser = this.userRepository.create({
       userId: id,
+      fullName: fullName.toLowerCase(),
+      email: email?.toLocaleLowerCase(),
       department: department?.toLowerCase(),
       municipalitie: municipalitie?.toLowerCase(),
       votingPlace: votingPlace?.toLowerCase(),
@@ -85,9 +89,9 @@ export class UsersService {
     });
 
     try {
-      const currentUser = await this.userRepository.save(updateUser);
+      const currentUser = await this.userRepository.update(id, updateUser);
 
-      if (!currentUser)
+      if (!currentUser.affected)
         return {
           operation: 'FAIL',
           message: `El usuario no fue editado`,
@@ -95,11 +99,11 @@ export class UsersService {
 
       return {
         operation: 'SUCCESS',
-        message: `${currentUser.fullName.toUpperCase()} fue editado exitosamente`,
+        message: `${fullName.toUpperCase()} fue editado exitosamente`,
       };
     } catch (error) {
       this.logger.error('Error al editar usuario', error);
-      throw new InternalServerErrorException('Error al editar usuario');
+      throw new BadRequestException('Error al editar usuario');
     }
   }
 
