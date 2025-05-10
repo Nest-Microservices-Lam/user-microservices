@@ -40,6 +40,7 @@ export class UsersService {
       createdById,
       role,
       password,
+      createdByName,
     } = createUserDto;
 
     try {
@@ -75,13 +76,15 @@ export class UsersService {
       });
 
       const newUser = await this.userRepository.save(createUser);
+
       const commonData: UserInterface = {
         userId: newUser.userId,
         fullName: newUser.fullName,
+        createdByName,
         createdById: newUser.created_by_user_id,
         idCard: newUser.idCard,
         dateBirth: newUser.dateBirth,
-        role: Role.ADMIN,
+        role: Role.FRIEND,
         phone: newUser.phone,
         email: newUser.email,
         password,

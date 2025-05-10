@@ -3,6 +3,7 @@ import { Role } from '../enums/role.type';
 export interface UserInterface {
   userId: string;
   fullName: string;
+  createdByName?: string;
   createdById?: string;
   idCard: string;
   dateBirth?: Date;

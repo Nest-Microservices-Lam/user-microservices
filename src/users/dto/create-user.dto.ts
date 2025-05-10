@@ -18,6 +18,10 @@ export class CreateUserDto {
 
   @IsString()
   @IsOptional()
+  createdByName?: string;
+
+  @IsString()
+  @IsOptional()
   createdById?: string;
 
   @IsString()
