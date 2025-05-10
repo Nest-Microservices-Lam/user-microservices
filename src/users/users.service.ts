@@ -81,7 +81,7 @@ export class UsersService {
         userId: newUser.userId,
         fullName: newUser.fullName,
         createdByName,
-        createdById: newUser.created_by_user_id,
+        createdById,
         idCard: newUser.idCard,
         dateBirth: newUser.dateBirth,
         role: Role.FRIEND,
