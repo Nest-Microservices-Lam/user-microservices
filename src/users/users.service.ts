@@ -1,9 +1,11 @@
 import {
   BadRequestException,
+  Inject,
   Injectable,
   InternalServerErrorException,
   Logger,
 } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -12,6 +14,8 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { validateUUID } from 'src/utils/validateuuid';
 import { UpdateUserIntentionDto } from './dto/updateIntention-user';
+import { UserInterface } from './interfaces';
+import { Role } from './enums/role.type';
 
 //-----------------------------------------------------
 
@@ -22,11 +26,21 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+
+    @Inject('NATS_SERVICE') private natsClient: ClientProxy,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
-    const { idCard, phone, email, dateBirth, fullName, createdById, role } =
-      createUserDto;
+    const {
+      idCard,
+      phone,
+      email,
+      dateBirth,
+      fullName,
+      createdById,
+      role,
+      password,
+    } = createUserDto;
 
     try {
       const existingUser = await this.userRepository
@@ -60,7 +74,20 @@ export class UsersService {
         rol: role || undefined,
       });
 
-      const newUser = await this.userRepository.save(createUser, {});
+      const newUser = await this.userRepository.save(createUser);
+      const commonData: UserInterface = {
+        userId: newUser.userId,
+        fullName: newUser.fullName,
+        createdById: newUser.created_by_user_id,
+        idCard: newUser.idCard,
+        dateBirth: newUser.dateBirth,
+        role: Role.ADMIN,
+        phone: newUser.phone,
+        email: newUser.email,
+        password,
+      };
+
+      this.natsClient.emit('created.user', commonData);
 
       return {
         operation: 'SUCCESS',
