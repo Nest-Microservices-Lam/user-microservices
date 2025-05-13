@@ -15,7 +15,6 @@ import { User } from './entities/user.entity';
 import { validateUUID } from 'src/utils/validateuuid';
 import { UpdateUserIntentionDto } from './dto/updateIntention-user';
 import { UserInterface } from './interfaces';
-import { Role } from './enums/role.type';
 
 //-----------------------------------------------------
 
@@ -84,7 +83,7 @@ export class UsersService {
         createdById,
         idCard: newUser.idCard,
         dateBirth: newUser.dateBirth,
-        role: Role.FRIEND,
+        role: newUser.rol,
         phone: newUser.phone,
         email: newUser.email,
         password,

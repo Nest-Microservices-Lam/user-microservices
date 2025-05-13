@@ -1,5 +1,3 @@
-import { Role } from '../enums/role.type';
-
 export interface UserInterface {
   userId: string;
   fullName: string;
@@ -7,7 +5,7 @@ export interface UserInterface {
   createdById?: string;
   idCard: string;
   dateBirth?: Date;
-  role?: Role;
+  role?: string;
   phone?: string;
   email?: string;
   password: string;
