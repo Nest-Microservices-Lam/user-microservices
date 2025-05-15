@@ -87,13 +87,14 @@ export class UsersService {
         phone: newUser.phone,
         email: newUser.email,
         password,
+        gender: newUser.gender,
       };
 
       this.natsClient.emit('created.user', commonData);
 
       return {
         operation: 'SUCCESS',
-        message: `El ${newUser.rol} ${newUser.fullName.toUpperCase()} con documento ${newUser.idCard} fue creado exitosamente`,
+        message: `Se agrego a ${newUser.fullName.toUpperCase()}`,
       };
     } catch (error) {
       this.logger.error('Error al crear usuario', error);

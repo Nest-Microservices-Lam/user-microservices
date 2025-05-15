@@ -57,4 +57,8 @@ export class CreateUserDto {
   })
   @IsOptional()
   password: string;
+
+  @IsString()
+  @IsOptional()
+  gender: string;
 }

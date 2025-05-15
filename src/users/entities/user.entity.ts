@@ -78,4 +78,7 @@ export class User {
 
   @Column({ default: true, name: 'is_active' })
   isActive: boolean;
+
+  @Column({ type: 'varchar', length: 20, nullable: true, default: 'masculino' })
+  gender: string;
 }
