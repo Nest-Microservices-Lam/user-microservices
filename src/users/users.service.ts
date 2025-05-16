@@ -40,6 +40,7 @@ export class UsersService {
       role,
       password,
       createdByName,
+      gender,
     } = createUserDto;
 
     try {
@@ -72,6 +73,7 @@ export class UsersService {
         email: email?.toLowerCase() || undefined,
         created_by_user_id: createdById || undefined,
         rol: role || undefined,
+        gender,
       });
 
       const newUser = await this.userRepository.save(createUser);
