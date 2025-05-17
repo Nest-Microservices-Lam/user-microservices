@@ -2,10 +2,9 @@ import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { UpdateUserpasswordDto } from './dto/update-user-password';
 import { UpdateUserIntentionDto } from './dto/updateIntention-user';
+import { CreateUserDto } from './dto/create-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -19,11 +18,6 @@ export class UsersController {
   @MessagePattern({ cmd: 'updateUser' })
   update(@Payload() updateUserDto: UpdateUserDto) {
     return this.usersService.update(updateUserDto.id, updateUserDto);
-  }
-
-  @MessagePattern({ cmd: 'updatePasssword' })
-  updatePassword(@Payload() updateUserDto: UpdateUserpasswordDto) {
-    return this.usersService.updatePassword(updateUserDto.id, updateUserDto);
   }
 
   @MessagePattern({ cmd: 'updateIntentionVote' })

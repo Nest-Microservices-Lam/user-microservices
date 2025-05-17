@@ -1,7 +1,6 @@
 import {
   IsDate,
   IsEmail,
-  IsJSON,
   IsOptional,
   IsString,
   Matches,
@@ -9,13 +8,17 @@ import {
   MinLength,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { PermissionRole } from '../interfaces/permission_role.interface';
+import { Role } from '../enums/role.type';
 
 export class CreateUserDto {
   @IsString()
   @MaxLength(255, { message: 'El nombre no puede exceder los 100 caracteres' })
   @MinLength(3, { message: 'El nombre no puede menos de 3 caracteres' })
   fullName: string;
+
+  @IsString()
+  @IsOptional()
+  createdByName?: string;
 
   @IsString()
   @IsOptional()
@@ -31,9 +34,9 @@ export class CreateUserDto {
   @IsOptional()
   dateBirth?: Date;
 
-  @IsJSON()
+  @IsString()
   @IsOptional()
-  permission_role?: PermissionRole;
+  role?: Role;
 
   @IsString()
   @MaxLength(10)
@@ -54,4 +57,8 @@ export class CreateUserDto {
   })
   @IsOptional()
   password: string;
+
+  @IsString()
+  @IsOptional()
+  gender: string;
 }

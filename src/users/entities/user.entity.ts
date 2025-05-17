@@ -8,7 +8,6 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import { PermissionRole } from '../interfaces/permission_role.interface';
 
 //---------------------------------------------------------------
 
@@ -24,6 +23,10 @@ export class User {
   @Index('idCard_index')
   @Column({ type: 'varchar', length: 20, unique: true })
   idCard: string;
+
+  @Index('email_index')
+  @Column({ type: 'varchar', length: 255, unique: true, nullable: true })
+  email: string;
 
   @Column({ type: 'text', nullable: true })
   created_by_user_id: string;
@@ -60,19 +63,12 @@ export class User {
   @Column({ length: 50, nullable: true })
   address: string;
 
-  @Column({ name: 'permission_role', type: 'jsonb' })
-  permission_role: PermissionRole;
-
   @Index('phone_index')
   @Column({ type: 'varchar', length: 20, unique: true, nullable: true })
   phone?: string;
 
-  @Index('email_index')
-  @Column({ type: 'varchar', length: 255, unique: true, nullable: true })
-  email: string;
-
-  @Column({ type: 'varchar', select: false, length: 255, nullable: true })
-  password: string;
+  @Column({ type: 'varchar', length: 20, nullable: true })
+  rol?: string;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
@@ -82,4 +78,7 @@ export class User {
 
   @Column({ default: true, name: 'is_active' })
   isActive: boolean;
+
+  @Column({ type: 'varchar', length: 20, nullable: true, default: 'masculino' })
+  gender: string;
 }

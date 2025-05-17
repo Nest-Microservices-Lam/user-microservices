@@ -1,9 +1,9 @@
 import { NestFactory } from '@nestjs/core';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
 import { AppModule } from './app.module';
-import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
 //-----------------------------------------------------------
 
@@ -11,7 +11,8 @@ async function bootstrap() {
   const logger = new Logger('Main');
   const appContext = await NestFactory.createApplicationContext(AppModule);
   const configService = appContext.get(ConfigService);
-  const port = configService.get<number>('SERVER.port');
+  const url_nast =
+    configService.get<string>('NATS_URL') || 'nats://localhost:4222';
 
   await appContext.close();
 
@@ -19,9 +20,10 @@ async function bootstrap() {
     AppModule,
     {
       logger: ['error', 'warn', 'log', 'debug'],
-      transport: Transport.TCP,
+      transport: Transport.NATS,
       options: {
-        port,
+        servers: [url_nast],
+        name: 'USER_MICROSERVICE',
       },
     },
   );
@@ -34,9 +36,7 @@ async function bootstrap() {
   );
 
   await app.listen();
-  logger.log(
-    `Products Microservice running on port ${configService.get<number>('SERVER.port')}`,
-  );
+  logger.log('USER MICROSERVICE IS RUNNING');
 }
 
 void bootstrap();
