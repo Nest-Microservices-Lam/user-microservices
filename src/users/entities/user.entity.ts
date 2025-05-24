@@ -58,7 +58,7 @@ export class User {
   votingPlace: string;
 
   @Column({ nullable: true })
-  table: number;
+  tableNumber: number;
 
   @Column({ length: 50, nullable: true })
   address: string;
