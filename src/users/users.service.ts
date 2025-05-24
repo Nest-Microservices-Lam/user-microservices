@@ -107,7 +107,7 @@ export class UsersService {
   async update(id: string, updateUserDto: UpdateUserDto) {
     validateUUID(id);
 
-    const { department, municipalitie, votingPlace, fullName, email, ...data } =
+    const { department, municipality, votingPlace, fullName, email, ...data } =
       updateUserDto;
 
     const updateUser = this.userRepository.create({
@@ -115,7 +115,7 @@ export class UsersService {
       fullName: fullName.toLowerCase(),
       email: email?.toLocaleLowerCase(),
       department: department?.toLowerCase(),
-      municipalitie: municipalitie?.toLowerCase(),
+      municipality: municipality?.toLowerCase(),
       votingPlace: votingPlace?.toLowerCase(),
       ...data,
     });
@@ -128,6 +128,8 @@ export class UsersService {
           operation: 'FAIL',
           message: `El usuario no fue editado`,
         };
+
+      this.natsClient.emit('updated.user', updateUser);
 
       return {
         operation: 'SUCCESS',

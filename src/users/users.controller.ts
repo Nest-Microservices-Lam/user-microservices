@@ -15,7 +15,7 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
-  @MessagePattern({ cmd: 'updateUser' })
+  @MessagePattern({ cmd: 'user.update' })
   update(@Payload() updateUserDto: UpdateUserDto) {
     return this.usersService.update(updateUserDto.id, updateUserDto);
   }

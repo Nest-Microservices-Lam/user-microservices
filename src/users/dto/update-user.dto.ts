@@ -45,7 +45,7 @@ export class UpdateUserDto {
   @IsString()
   @MaxLength(100)
   @IsOptional()
-  municipalitie?: string;
+  municipality?: string;
 
   @Max(200)
   @IsOptional()
@@ -58,7 +58,7 @@ export class UpdateUserDto {
 
   @Max(1000)
   @IsOptional()
-  table: number;
+  tableNumber: number;
 
   @IsString()
   @MaxLength(50)

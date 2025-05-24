@@ -47,7 +47,7 @@ export class User {
 
   @Index()
   @Column({ length: 100, nullable: true })
-  municipalitie: string;
+  municipality: string;
 
   @Index()
   @Column({ nullable: true })
